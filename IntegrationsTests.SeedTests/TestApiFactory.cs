@@ -36,12 +36,12 @@ namespace IntegrationsTests.SeedTests
         
             builder.ConfigureTestServices(services =>
             {
-        
+            
                 // Remove the app's ApplicationDbContext registration.
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                          typeof(DbContextOptions<AppDbContext>));
-        
+            
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);
@@ -50,18 +50,18 @@ namespace IntegrationsTests.SeedTests
                 services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(
                         _dbContainer.ConnectionString));
-                
-                
+
+                // // Apply migrations to the test database
+                // builder.Configure(app =>
+                // {
+                //     using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+                //     var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+                //     context.Database.Migrate();
+                //     Seed.SeedUsers(context);
+                // });
             });
             
-            // Apply migrations to the test database
-            builder.Configure(app =>
-            {
-                using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-                var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-                context.Database.Migrate();
-                Seed.SeedUsers(context);
-            });
+            
         }
         
         

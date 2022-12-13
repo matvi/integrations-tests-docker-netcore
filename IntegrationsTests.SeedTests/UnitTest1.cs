@@ -1,9 +1,5 @@
 using System;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
-using TestIntegrations;
-using TestIntegrations.Data;
-using TestIntegrations.Entities;
 using Xunit;
 
 namespace IntegrationsTests.SeedTests
@@ -16,17 +12,15 @@ namespace IntegrationsTests.SeedTests
         {
             _testApiFactory = testApiFactory;
         }
-        
         [Fact]
         public async Task Test1()
         {
             var client = _testApiFactory.CreateClient();
             var result = await client.GetAsync("User");
 
-            //var users = await result.Content.ReadFromJsonAsync<UserEntity>();
-            var users = await result.Content.ReadAsStringAsync();
+            var data = await result.Content.ReadAsStringAsync();
             
-            await Task.Delay(150000);
+            //await Task.Delay(150000);
         }
     }
 }
