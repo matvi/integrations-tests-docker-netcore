@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TestIntegrations.Entities;
 
 namespace TestIntegrations.Controllers
 {
@@ -10,17 +10,18 @@ namespace TestIntegrations.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly AppDbContext _context;
-    
-        public UserController(AppDbContext context)
+        private readonly IUserRepository _userRepository;
+
+
+        public UserController(IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
     
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _context.UserEntities.ToListAsync();
+            var users = await _userRepository.GetUsersAsync();
 
             return Ok(users);
         }

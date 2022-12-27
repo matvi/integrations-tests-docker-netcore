@@ -1,5 +1,5 @@
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using TestIntegrations.Entities;
 
 namespace TestIntegrations
 {

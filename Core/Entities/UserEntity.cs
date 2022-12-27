@@ -1,4 +1,4 @@
-namespace TestIntegrations.Entities
+namespace Core.Entities
 {
     public class UserEntity
     {

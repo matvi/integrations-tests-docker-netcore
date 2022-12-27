@@ -3,10 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using TestIntegrations.Entities;
+using TestIntegrations;
 
-namespace TestIntegrations.Data
+namespace Infraestructure.Data
 {
     public static class Seed
     {

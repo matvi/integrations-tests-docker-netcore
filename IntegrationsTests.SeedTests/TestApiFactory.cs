@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
+using Infraestructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using TestIntegrations;
 using TestIntegrations.Data;
 using Xunit;
@@ -46,19 +48,19 @@ namespace IntegrationsTests.SeedTests
                 {
                     services.Remove(descriptor);
                 }
-                // services.RemoveAll(typeof(ApplicationDbContext));
+                //services.RemoveAll(typeof(DbContext));
                 services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(
                         _dbContainer.ConnectionString));
+                
+                var serviceProvider = services.BuildServiceProvider();
 
-                // // Apply migrations to the test database
-                // builder.Configure(app =>
-                // {
-                //     using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-                //     var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-                //     context.Database.Migrate();
-                //     Seed.SeedUsers(context);
-                // });
+                using var scope = serviceProvider.CreateScope();
+                var scopedServices = scope.ServiceProvider;
+                var context = scopedServices.GetRequiredService<AppDbContext>();
+                context.Database.Migrate();
+                Seed.SeedUsers(context); 
+                
             });
             
             
