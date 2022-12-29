@@ -3,13 +3,16 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Core.Entities;
 using FluentAssertions;
-using Org.BouncyCastle.Asn1;
 using Xunit;
 using Xunit.Abstractions;
 
+
 namespace IntegrationsTests.SeedTests
 {
-    [TestCaseOrderer(typeof(PriorityOrderer)]
+    [CollectionDefinition("MyTestCollection")]
+    //[TestCaseOrderer(typeof(PriorityOrderer).FullName, typeof(PriorityOrderer).Assembly.GetName().Name)]
+    [TestCaseOrderer("IntegrationsTests.SeedTests.PriorityOrderer",
+        "IntegrationsTests.SeedTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")]
     public class UserControllerTest : IClassFixture<TestApiFactory>
     {
         private readonly TestApiFactory _testApiFactory;
@@ -21,32 +24,11 @@ namespace IntegrationsTests.SeedTests
             _testApiFactory = testApiFactory;
             _testOutputHelper = testOutputHelper;
         }
-        
+
         [Fact, TestPriority(1)]
-        public async Task BWhenGetUser_ShouldReturnListOfSeedUsers()
-        {
-            _test += "Test B running";
-            _testOutputHelper.WriteLine(_test);
-            var expectedUser = new UserEntity
-            {
-                Id = 1,
-                Name = "Lela",
-                LastName = "Estes"
-            };
-            var client = _testApiFactory.CreateClient();
-            var result = await client.GetAsync("User");
-            var users = await result.Content.ReadFromJsonAsync<List<UserEntity>>();
-            
-            //Asserts
-            users.Should().ContainEquivalentOf(expectedUser);
-            _test += "Test B finished";
-            _testOutputHelper.WriteLine(_test);
-        }
-        
-        [Fact, TestPriority(2)]
         public async Task AWhenGetUser_ShouldReturnListOfSeedUsers()
         {
-            _test += "Test A running";
+            _test += "1";
             _testOutputHelper.WriteLine(_test);
             var expectedUser = new UserEntity
             {
@@ -57,17 +39,17 @@ namespace IntegrationsTests.SeedTests
             var client = _testApiFactory.CreateClient();
             var result = await client.GetAsync("User");
             var users = await result.Content.ReadFromJsonAsync<List<UserEntity>>();
-            
+
             //Asserts
             users.Should().ContainEquivalentOf(expectedUser);
-            _test += "Test A finished";
+            _test += "2";
             _testOutputHelper.WriteLine(_test);
         }
-        
-        [Fact, TestPriority(3)]
-        public async Task ZWhenGetUser_ShouldReturnListOfSeedUsers()
+
+        [Fact, TestPriority(2)]
+        public async Task BWhenGetUser_ShouldReturnListOfSeedUsers()
         {
-            _test += "Test Z running";
+            _test += "3";
             _testOutputHelper.WriteLine(_test);
             var expectedUser = new UserEntity
             {
@@ -78,13 +60,34 @@ namespace IntegrationsTests.SeedTests
             var client = _testApiFactory.CreateClient();
             var result = await client.GetAsync("User");
             var users = await result.Content.ReadFromJsonAsync<List<UserEntity>>();
-            
+
             //Asserts
             users.Should().ContainEquivalentOf(expectedUser);
-            _test += "Test Z finished";
+            _test += "4";
             _testOutputHelper.WriteLine(_test);
         }
-        
+
+        [Fact, TestPriority(3)]
+        public async Task CWhenGetUser_ShouldReturnListOfSeedUsers()
+        {
+            _test += "5";
+            _testOutputHelper.WriteLine(_test);
+            var expectedUser = new UserEntity
+            {
+                Id = 1,
+                Name = "Lela",
+                LastName = "Estes"
+            };
+            var client = _testApiFactory.CreateClient();
+            var result = await client.GetAsync("User");
+            var users = await result.Content.ReadFromJsonAsync<List<UserEntity>>();
+
+            //Asserts
+            users.Should().ContainEquivalentOf(expectedUser);
+            _test += "6";
+            _testOutputHelper.WriteLine(_test);
+        }
+
         // [Theory]
         // [InlineData(typeof(UserRepository))]
         // public async Task ShouldReturnX(Type repositoryType)

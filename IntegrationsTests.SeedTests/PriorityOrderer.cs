@@ -16,8 +16,12 @@ namespace IntegrationsTests.SeedTests
             {
                 int priority = 0;
 
-                foreach (IAttributeInfo attr in testCase.TestMethod.Method.GetCustomAttributes(typeof(TestPriorityAttribute).AssemblyQualifiedName))
+                foreach (IAttributeInfo attr in testCase.TestMethod.Method.GetCustomAttributes(
+                             typeof(TestPriorityAttribute).AssemblyQualifiedName))
+                {
                     priority = attr.GetNamedArgument<int>("Priority");
+                }
+                    
 
                 GetOrCreate(sortedMethods, priority).Add(testCase);
             }
