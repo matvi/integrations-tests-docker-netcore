@@ -6,13 +6,12 @@ using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
 
-
-namespace IntegrationsTests.SeedTests
+namespace IntegrationsTests.Tests
 {
     [CollectionDefinition("MyTestCollection")]
     //[TestCaseOrderer(typeof(PriorityOrderer).FullName, typeof(PriorityOrderer).Assembly.GetName().Name)]
-    [TestCaseOrderer("IntegrationsTests.SeedTests.PriorityOrderer",
-        "IntegrationsTests.SeedTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")]
+    [TestCaseOrderer("IntegrationsTests.PriorityOrderer",
+        "IntegrationsTests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")]
     public class UserControllerTest : IClassFixture<TestApiFactory>
     {
         private readonly TestApiFactory _testApiFactory;
@@ -28,6 +27,8 @@ namespace IntegrationsTests.SeedTests
         [Fact, TestPriority(1)]
         public async Task AWhenGetUser_ShouldReturnListOfSeedUsers()
         {
+            _testOutputHelper.WriteLine(typeof(PriorityOrderer).FullName);
+            _testOutputHelper.WriteLine(typeof(PriorityOrderer).Assembly.GetName().Name);
             _test += "1";
             _testOutputHelper.WriteLine(_test);
             var expectedUser = new UserEntity
@@ -87,24 +88,5 @@ namespace IntegrationsTests.SeedTests
             _test += "6";
             _testOutputHelper.WriteLine(_test);
         }
-
-        // [Theory]
-        // [InlineData(typeof(UserRepository))]
-        // public async Task ShouldReturnX(Type repositoryType)
-        // {
-        //     var client = _testApiFactory.CreateClient();
-        //     var expectedUser = new UserEntity
-        //     {
-        //         Id = 1,
-        //         Name = "Lela",
-        //         LastName = "Estes"
-        //     };
-        //     var userRepository = (IUserRepository)Activator.CreateInstance(repositoryType);
-        //     var users = await userRepository.GetUsersAsync();
-        //     var lalaUser = users.FirstOrDefault(u => u.Name.Contains("Lela"));
-        //     
-        //     //Asserts
-        //     lalaUser.Should().BeEquivalentTo(expectedUser);
-        // }
     }
 }

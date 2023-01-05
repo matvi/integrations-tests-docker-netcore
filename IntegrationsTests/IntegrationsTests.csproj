@@ -4,6 +4,8 @@
         <TargetFramework>net5.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
+
+        <RootNamespace>IntegrationsTests.SeedTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TestIntegrations\TestIntegrations.csproj" />
+      <ProjectReference Include="..\WebApplicationApi\WebApplicationApi.csproj" />
     </ItemGroup>
 
 </Project>

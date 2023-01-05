@@ -18,7 +18,7 @@ namespace TestIntegrations.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17");
 
-            modelBuilder.Entity("TestIntegrations.Entities.UserEntity", b =>
+            modelBuilder.Entity("WebApplicationApi.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

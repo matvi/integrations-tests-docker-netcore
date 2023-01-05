@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestIntegrations", "TestIntegrations\TestIntegrations.csproj", "{C690E038-27E6-4A0B-A8C6-28020112CD6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplicationApi", "WebApplicationApi\WebApplicationApi.csproj", "{C690E038-27E6-4A0B-A8C6-28020112CD6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationsTests.SeedTests", "IntegrationsTests.SeedTests\IntegrationsTests.SeedTests.csproj", "{760EAD3F-52F6-48A9-B802-1F7A15A880EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationsTests", "IntegrationsTests\IntegrationsTests.csproj", "{760EAD3F-52F6-48A9-B802-1F7A15A880EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{C8219D6C-E118-4D4D-B498-7CD88F942F58}"
 EndProject
