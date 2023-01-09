@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using Infraestructure.Data;
+using IntegrationsTests.MockApis;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -18,6 +20,7 @@ namespace IntegrationsTests
     {
         // Test container database instance
         private readonly TestcontainerDatabase _dbContainer;
+        private MockChiliServer _chiliMockServer = new ();
         
         public TestApiFactory()
         {
@@ -35,6 +38,7 @@ namespace IntegrationsTests
                 // Set the clean up flag for the test container database
                 .WithCleanUp(true)
                 .Build();
+            
         }
         
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -57,6 +61,13 @@ namespace IntegrationsTests
                     options.UseSqlServer(
                         _dbContainer.ConnectionString));
                 
+                //override the HttpClientFactory
+                services.AddHttpClient("myClient", config =>
+                {
+                    config.BaseAddress = new Uri(_chiliMockServer.Url);
+                    config.DefaultRequestHeaders.Add("Accept", "application/json");
+                });
+
                 // Get an instance of the AppDbContext from the service provider
                 var serviceProvider = services.BuildServiceProvider();
                 using var scope = serviceProvider.CreateScope();
@@ -73,6 +84,11 @@ namespace IntegrationsTests
         // Start the test container database before the integration tests are run
         public async Task InitializeAsync()
         {
+            //Start MockServers
+            _chiliMockServer.StartServer();
+            //SetUp the mapping request
+            _chiliMockServer.SetUpGetChiliApiKey();
+            
             await _dbContainer.StartAsync();
         }
 
@@ -80,6 +96,7 @@ namespace IntegrationsTests
         public  async Task DisposeAsync()
         {
             await _dbContainer.DisposeAsync();
+            _chiliMockServer.Dispose();
         }
     }
 }

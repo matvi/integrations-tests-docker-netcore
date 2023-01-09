@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Core.Entities;
@@ -86,6 +87,21 @@ namespace IntegrationsTests.Tests
             //Asserts
             users.Should().ContainEquivalentOf(expectedUser);
             _test += "6";
+            _testOutputHelper.WriteLine(_test);
+        }
+        
+        [Fact, TestPriority(4)]
+        public async Task WhenCallingExternalAPI_ShouldReturnStatusCodeCreated()
+        {
+            _test += "7";
+            _testOutputHelper.WriteLine(_test);
+
+            var client = _testApiFactory.CreateClient();
+            var result = await client.GetAsync("User/CallExternalApi");
+
+            //Asserts
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+            _test += "8";
             _testOutputHelper.WriteLine(_test);
         }
     }
